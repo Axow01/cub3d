@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/08 23:13:35 by mmarcott         ###   ########.fr       */
+/*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
+/*   Updated: 2024/05/08 23:09:29 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#ifndef H_CUB3D
+# define H_CUB3D
 
-int	main(void) {
-	mms_set_alloc_fn(ft_calloc);
-	char	*test = mms_alloc(25, sizeof(char));
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
 
-	for (size_t i = 0; i < 25; i++) {
-		test[i] = 'a';
-	}
-	ft_printf("STR: %s\n", test);
-	mms_kill("", false, 0);
-	return (0);
-}
+# include "../libs/MLX42/include/MLX42/MLX42.h"
+# include "../libs/libmms/libmms.h"
+# include "../libs/libftms/inc/libft.h"
+
+#endif

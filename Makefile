@@ -70,7 +70,7 @@ clean:
 	@$(MAKE) -C $(LIBMMSPATH) clean
 
 fclean: clean
-	@rm -rf $(NAME) $(MLXPATH)$(MLX)/build $(MLXPATH)$(MLX)
+	@rm -rf $(NAME) $(MLXPATH)/build $(MLXPATH)$(MLX)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_RED)FULL CLEAN COMPLETED...$(RESET)
 	@$(MAKE) -C $(LIBFTPATH) fclean
 	@$(MAKE) -C $(LIBMMSPATH) fclean
