@@ -14,52 +14,66 @@ C_YELLOW = \\x1b[33m
 
 #--- DEFAULT VALUES ---#
 
-NAME = NAME
+NAME = cub3d
 
-SRC = 
+SRC = src/main.c
 
-OBJS = $(patsubst %.cpp, bin/%.o, $(SRC))
+OBJS = $(patsubst src/%.c, obj/%.o, $(SRC))
 
-CC = c++
+CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
-# LIBFTPATH = includes/libft/
+LIBFTPATH = libs/libftms/
 
-# LIBFT = libft.a
+LIBFT = libft.a
 
-#MLX = build/libmlx42.a
+MLX = build/libmlx42.a
 
-#MLXPATH = includes/MLX42/
+MLXPATH = libs/MLX42/
+
+LIBMMSPATH = libs/libmms/
+
+LIBMMS = libmms.a
 
 #---   RULES   ---#
 
 all: $(NAME) logo
 
-$(NAME): $(OBJS) $(LIBFTPATH)$(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): submodule $(OBJS) $(LIBFTPATH)$(LIBFT) $(MLXPATH)$(MLX)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"/Users/$(USER)/homebrew/opt/glfw/lib/" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_CYAN)$(NAME) COMPILED SUCCESSFULLY...$(RESET)
-	
-bin/%.o: %.cpp
-	@mkdir -p bin/
+
+submodule:
+	@git submodule update --init
+
+obj/%.o: src/%.c
+	@mkdir -p obj/
 	@$(CC) $(CFLAGS) -c -o $@ $<
 	@echo $(F_BOLD)$(F_ITALIC)$(C_CYAN)$(NAME)\'S $@ OBJECT CREATED SUCCESSFULLY...$(RESET)
 
-#$(MLXPATH)$(MLX):
-#	@cmake $(MLXPATH) -B $(MLXPATH)/build
-#	@$(MAKE) -C $(MLXPATH)/build -j4
+$(MLXPATH)$(MLX):
+	@cmake $(MLXPATH) -B $(MLXPATH)/build
+	@$(MAKE) -C $(MLXPATH)/build -j4
 
-# $(LIBFTPATH)$(LIBFT):
-#	@$(MAKE) -C $(LIBFTPATH)
-#	@$(MAKE) -C $(LIBFTPATH) bonus
+$(LIBFTPATH)$(LIBFT): $(LIBMMSPATH)$(LIBMMS)
+	@$(MAKE) -C $(LIBFTPATH)
+	@$(MAKE) -C $(LIBFTPATH) bonus
+
+$(LIBMMSPATH)$(LIBMMS):
+	@$(MAKE) -C $(LIBMMSPATH)
 
 clean:
-	@rm -rf bin/
+	@rm -rf obj/
 	@echo $(F_BOLD)$(F_ITALIC)$(C_YELLOW)$(NAME) CLEANED SUCCESSFULLY...$(RESET)
+	@$(MAKE) -C $(LIBFTPATH) clean
+	@$(MAKE) -C $(LIBMMSPATH) clean
 
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) $(MLXPATH)$(MLX)/build $(MLXPATH)$(MLX)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_RED)FULL CLEAN COMPLETED...$(RESET)
+	@$(MAKE) -C $(LIBFTPATH) fclean
+	@$(MAKE) -C $(LIBMMSPATH) fclean
 
 bonus: all
 
