@@ -123,8 +123,8 @@ bool    validate_map(t_game *game, int fd)
         return (false);
     }
     print_map(&game->map);
-    if (!flood_fill(&game->map, 26, 11))
-        printf("ERROR MAP INVALID\n");
-    print_map(&game->map);
+    //if (!flood_fill(&game->map, 26, 11))
+    //    printf("ERROR MAP INVALID\n");
+    //print_map(&game->map);
     return (true);
 }

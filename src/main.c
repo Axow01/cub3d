@@ -12,14 +12,12 @@
 
 #include "../includes/cub3d.h"
 
-int	main(void)
-{
-	t_game game;
+int	main(void) {
+	struct mlx	*mlx;
 
-	ft_bzero(&game, sizeof(game));
-	mms_set_alloc_fn(ft_calloc);
-
-	parse_file(&game, "File1.cub");
-	mms_kill("", false, 0);
+	if (!(mlx = mlx_init(900, 800, "Cub3d", false)))
+		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
 	return (0);
 }
