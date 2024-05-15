@@ -12,14 +12,14 @@
 
 #include "../includes/cub3d.h"
 
-int	main(void) {
-	mms_set_alloc_fn(ft_calloc);
-	char	*test = mms_alloc(25, sizeof(char));
+int	main(void)
+{
+	t_game game;
 
-	for (size_t i = 0; i < 25; i++) {
-		test[i] = 'a';
-	}
-	ft_printf("STR: %s\n", test);
+	ft_bzero(&game, sizeof(game));
+	mms_set_alloc_fn(ft_calloc);
+
+	parse_file(&game, "File1.cub");
 	mms_kill("", false, 0);
 	return (0);
 }
