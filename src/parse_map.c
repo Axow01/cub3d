@@ -24,7 +24,7 @@ void    add_line(t_map *old, char *addition)
 // to get ready for floodfill
 
 // change to use api!
-bool    check_transform(t_map *map)
+bool    check_transform(t_game *game, t_map *map)
 {
     size_t i;
     size_t j;
@@ -46,7 +46,9 @@ bool    check_transform(t_map *map)
                     map->grid[i].line[j] == 'W' || map->grid[i].line[j] == 'E')
             {
                 printf("playerx: %lu, playery: %lu\n", j, i);
-                set_pos(map, j, i, ' ');//set player pos
+                set_pos(map, j, i, ' ');
+                game->player.px = j + 0.5;
+                game->player.py = i + 0.5;
             }
             j++;
         }
@@ -78,7 +80,7 @@ bool    load_map(t_game *game, int fd)
         add_line(&game->map, line);
         line = get_next_line(fd);
     }
-    if (!check_transform(&game->map))
+    if (!check_transform(game, &game->map))
         return (false);
     return (true);
 }
@@ -113,18 +115,18 @@ bool    flood_fill(t_map *map, int x, int y)
     return (true);
 }
 
-
-
-bool    validate_map(t_game *game, int fd)
+bool    parse_map(t_game *game, int fd)
 {
     if (!load_map(game, fd))
     {
         printf("Failed to load map!\n");
         return (false);
     }
+    if (!flood_fill(&game->map, 26, 11))
+    {
+        printf("Invalid map\n");
+        return (false);
+    }
     print_map(&game->map);
-    //if (!flood_fill(&game->map, 26, 11))
-    //    printf("ERROR MAP INVALID\n");
-    //print_map(&game->map);
     return (true);
 }

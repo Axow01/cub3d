@@ -11,7 +11,6 @@ bool load_texture(t_game *instance, char *line)
 	while (line[++i])
 		if (line[i] != ' ')
 			break;
-	//*ft_strchr(&line[i], '\n') = 0;
 	texture = mlx_load_png(&line[i]);
 	if (!texture)
 		return (false);
@@ -103,13 +102,15 @@ bool parse_headers(t_game *instance, int fd)
 	res = true;
 	while (line)
 	{
-		*ft_strchr(line, '\n') = 0; //WRONG NEED TO CHANGE
+		if (ft_strchr(line, '\n'))
+			*ft_strchr(line, '\n') = 0;
 		if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3) ||
 				!ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
-				res = load_texture(instance, line);
+			res = load_texture(instance, line);
+
 		else if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
 			res = color_from_text(instance, line);
-		if (ft_strlen(line) <= 1)
+		else if (ft_strlen(line) < 1)
 		{
 			mms_free(line);
 			line = get_next_line(fd);
