@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tparadis <tparadis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/17 20:00:05 by tparadis         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:55:15 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define WINDOW_WIDTH 1024
 
 # define MINIMAP_SIZE 100
-
+# define ROT_SPEED 0.05
 
 typedef struct s_line
 {
@@ -51,11 +51,12 @@ typedef struct s_minimap
 }				t_minimap;
 
 typedef struct	s_player {
-	float	px;
-	float	py;
-	float	pdx;
-	float	pdy;
-	float	pAngle;
+	double	px;
+	double	py;
+	double	pdx;
+	double	pdy;
+	double	planex;
+	double	planey;
 }			t_player;
 
 typedef struct s_game
@@ -70,8 +71,24 @@ typedef struct s_game
 	mlx_texture_t	*so_texture;
 	mlx_texture_t	*we_texture;
 	mlx_texture_t	*ea_texture;
+	mlx_image_t		*wall;
 
 } t_game;
+
+typedef struct s_ray
+{
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		side;
+}			t_ray;
 
 // MAP UTILS
 char    at_pos(t_map *map, size_t x, size_t y);
@@ -85,6 +102,7 @@ bool    parse_map(t_game *game, int fd);
 // RAYCAST
 void		key_hook(mlx_key_data_t keydata, void *param);
 t_player	*init_player(t_game *game, float x, float y, char angle);
+void		raycast(t_game *game);
 
 // RENDERING
 void	update_minimap(t_game *game);
