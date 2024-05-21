@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 02:17:13 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:27:39 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,19 @@ void	key_hook(mlx_key_data_t keydata, void *param) {
 		mms_kill("Escaped!", true, 0);
 	if (keydata.key == MLX_KEY_W)
 	{
-		player->px += player->pdx;
-		player->py += player->pdy;
+		if (at_pos(&game->map, player->px + player->pdx * 0.05, player->py + player->pdy * 0.05) != '1')
+		{
+			player->px += player->pdx * 0.05;
+			player->py += player->pdy * 0.05;
+		}
 	}
 	if (keydata.key == MLX_KEY_S)
 	{
-		player->px -= player->pdx;
-		player->py -= player->pdy;
+		if (at_pos(&game->map, player->px - player->pdx * 0.05, player->py - player->pdy * 0.05) != '1')
+		{
+			player->px -= player->pdx * 0.05;
+			player->py -= player->pdy * 0.05;
+		}
 	}
 	calculate_player_pos(game, keydata.key);
 }

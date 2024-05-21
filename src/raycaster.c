@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 03:06:33 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:19:09 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static double	get_wall_dist(t_ray *ray, t_player *player)
 		wall_dist = (ray->map_x - player->px + (1 - ray->step_x) / 2) / ray->ray_dir_x;
 	else
 		wall_dist = (ray->map_y - player->py + (1 - ray->step_y) / 2) / ray->ray_dir_y;
-	if (wall_dist >= INFINITY)
-		wall_dist = 10;
 	return (wall_dist);
 }
 
@@ -85,31 +83,34 @@ static double	dda(t_game *game, double camx)
 			ray.map_y += ray.step_y;
 			ray.side = 1;
 		}
-		if (at_pos(&game->map, ray.map_x, ray.map_y) == '1') {
+		if (at_pos(&game->map, ray.map_x, ray.map_y) == '1')
 			hit = true;
-		}
 	}
 	return (get_wall_dist(&ray, &game->player));
 }
 
 static void	draw_test_wall(int draw_start, int draw_end, t_game *game, int x)
 {
-	for (int y = draw_start; y < draw_end; y++)
-	{
+	int	y;
+
+	y = draw_start - 1;
+	while (++y < draw_end)
 		mlx_put_pixel(game->wall, x, y, 255);
-	}
 }
 
 void	raycast(t_game *game) {
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
+	int		x;
 	double	wal_dist;
 	double	camx;
 
+	x = -1;
 	mlx_delete_image(game->mlx, game->wall);
 	game->wall = mlx_new_image(game->mlx, WINDOW_WIDTH - 1, WINDOW_HEIGHT - 1);
-	for (int x = 0; x < WINDOW_WIDTH; x++) {
+	while (++x < WINDOW_WIDTH)
+	{
 		camx = 2 * x / (double)WINDOW_WIDTH - 1;
 		wal_dist = dda(game, camx);
 		line_height = (int)(WINDOW_HEIGHT / wal_dist);
