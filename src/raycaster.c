@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 03:32:19 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/21 06:17:56 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ static void	draw_test_wall(int draw_start, int draw_end, t_game *game, int x)
 
 	y = draw_start - 1;
 	while (++y < draw_end)
-		mlx_put_pixel(game->wall, x, y, 255);
+	{
+		if (!(y > WINDOW_HEIGHT - MINIMAP_SIZE && x > WINDOW_WIDTH - MINIMAP_SIZE))
+			mlx_put_pixel(game->wall, x, y, 255);
+	}
 }
 
 void	raycast(t_game *game) {
