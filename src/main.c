@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 02:09:02 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:32:11 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void	loop(void *param)
 
 	game = (t_game*)param;
 	raycast(game);
+}
+
+t_player	*init_player(t_game *game, float x, float y, char angle) 
+{
+	t_player	*player;
+
+	(void)angle;
+	player = &game->player;
+	player->px = x;
+	player->py = y;
+	player->pdx = -1.0;
+	player->pdy = 0.0;
+	player->planex = 0.0;
+	player->planey = 0.66;
+	return (player);
 }
 
 int	main(int argc, char **argv) {

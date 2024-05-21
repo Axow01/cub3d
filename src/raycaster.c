@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 03:19:09 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:32:19 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,6 @@ static double	get_wall_dist(t_ray *ray, t_player *player)
 	else
 		wall_dist = (ray->map_y - player->py + (1 - ray->step_y) / 2) / ray->ray_dir_y;
 	return (wall_dist);
-}
-
-t_player	*init_player(t_game *game, float x, float y, char angle) 
-{
-	t_player	*player;
-
-	(void)angle;
-	player = &game->player;
-	player->px = x;
-	player->py = y;
-	player->pdx = -1.0;
-	player->pdy = 0.0;
-	player->planex = 0.0;
-	player->planey = 0.66;
-	return (player);
 }
 
 static double	dda(t_game *game, double camx)
