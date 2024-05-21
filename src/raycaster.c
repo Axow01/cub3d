@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 02:49:27 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/21 03:02:19 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	init_ray(t_ray *ray, t_player *player, double camx)
 	ray->map_x = (int)player->px;
 	ray->map_y = (int)player->py;
 	ray->ray_dir_x = player->pdx + player->planex * camx;
-	ray->ray_dir_x = player->pdy + player->planey * camx;
+	ray->ray_dir_y = player->pdy + player->planey * camx;
 	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
 	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 	ray->step_x = 1;
@@ -34,6 +34,7 @@ static void	init_ray(t_ray *ray, t_player *player, double camx)
 		ray->step_y = -1;
 		ray->side_dist_y = (player->py - ray->map_y) * ray->delta_dist_y;
 	}
+	// printf("%f RDX%f");
 }
 
 static double	get_wall_dist(t_ray *ray, t_player *player)
