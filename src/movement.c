@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 03:27:39 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 01:17:53 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static void	calculate_player_pos(t_game *game, keys_t key)
 	double		old_plane;
 
 	player = &game->player;
-	if (key == MLX_KEY_R)
-		raycast(game);
-	if (key == MLX_KEY_A)
+	if (key == MLX_KEY_LEFT)
 	{
 		old_dir = player->pdx;
 		player->pdx = player->pdx * cos(ROT_SPEED) - player->pdy * sin(ROT_SPEED);
@@ -30,7 +28,7 @@ static void	calculate_player_pos(t_game *game, keys_t key)
 		player->planex = player->planex * cos(ROT_SPEED) - player->planey * sin(ROT_SPEED);
 		player->planey = old_plane * sin(ROT_SPEED) + player->planey * cos(ROT_SPEED);
 	}
-	if (key == MLX_KEY_D)
+	if (key == MLX_KEY_RIGHT)
 	{
 		old_dir = player->pdx;
 		player->pdx = player->pdx * cos(-ROT_SPEED) - player->pdy * sin(-ROT_SPEED);
@@ -38,6 +36,20 @@ static void	calculate_player_pos(t_game *game, keys_t key)
 		old_plane = player->planex;
 		player->planex = player->planex * cos(-ROT_SPEED) - player->planey * sin(-ROT_SPEED);
 		player->planey = old_plane * sin(-ROT_SPEED) + player->planey * cos(-ROT_SPEED);
+	}
+}
+
+static void	side_move(t_game *game, keys_t key)
+{
+	if (key == MLX_KEY_A)
+	{
+		game->player.px -= game->player.planex * 0.05;
+		game->player.py -= game->player.planey * 0.05;
+	}
+	if (key == MLX_KEY_D)
+	{
+		game->player.px += game->player.planex * 0.05;
+		game->player.py += game->player.planey * 0.05;
 	}
 }
 
@@ -66,4 +78,5 @@ void	key_hook(mlx_key_data_t keydata, void *param) {
 		}
 	}
 	calculate_player_pos(game, keydata.key);
+	side_move(game, keydata.key);
 }
