@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 01:55:15 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 01:48:32 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_game
 	mlx_texture_t	*we_texture;
 	mlx_texture_t	*ea_texture;
 	mlx_image_t		*wall;
-
+	mlx_image_t		*floor_ceiling;
 } t_game;
 
 typedef struct s_ray
@@ -106,6 +106,7 @@ void		raycast(t_game *game);
 
 // RENDERING
 void	update_minimap(t_game *game);
+void	draw_floor_ceiling(t_game *game);
 
 // MINIMAP
 bool	initialize_minimap(t_game *game);

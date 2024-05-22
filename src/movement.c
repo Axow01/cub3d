@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 01:17:53 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 02:16:24 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,19 @@ static void	side_move(t_game *game, keys_t key)
 {
 	if (key == MLX_KEY_A)
 	{
-		game->player.px -= game->player.planex * 0.05;
-		game->player.py -= game->player.planey * 0.05;
+		if (at_pos(&game->map, game->player.px - game->player.planex * 0.05, game->player.py - game->player.planey * 0.05) != '1')
+		{
+			game->player.px -= game->player.planex * 0.05;
+			game->player.py -= game->player.planey * 0.05;
+		}
 	}
 	if (key == MLX_KEY_D)
 	{
-		game->player.px += game->player.planex * 0.05;
-		game->player.py += game->player.planey * 0.05;
+		if (at_pos(&game->map, game->player.px + game->player.planex * 0.05, game->player.py + game->player.planey * 0.05) != '1')
+		{
+			game->player.px += game->player.planex * 0.05;
+			game->player.py += game->player.planey * 0.05;
+		}
 	}
 }
 

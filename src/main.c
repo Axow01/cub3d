@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 07:51:28 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 02:17:43 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	quitting_test(void *param)
 {
+	mlx_delete_image(((t_game*)param)->mlx,((t_game*)param)->floor_ceiling);
 	mlx_terminate((mlx_t *) ((t_game*)param)->mlx);
 }
 
@@ -61,6 +62,9 @@ int	main(int argc, char **argv) {
 	printf("Player x:%f y: %f\n", player->px, player->py);
 	update_minimap(&game);
 	game.wall = mlx_new_image(game.mlx, WINDOW_WIDTH - 1, WINDOW_HEIGHT - 1);
+	game.no_texture = mlx_load_png("wall3.png");
+	draw_floor_ceiling(&game);
+	printf("Ceiling: %x Floor: %x\n", game.ceiling_color, game.floor_color);
 	mlx_key_hook(mlx, key_hook, &game);
 	mlx_loop_hook(mlx, loop, &game);
 	mlx_loop(mlx);

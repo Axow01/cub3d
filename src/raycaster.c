@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/21 07:37:55 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 02:24:40 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ static double	dda(t_game *game, double camx)
 
 static void	draw_test_wall(int draw_start, int draw_end, t_game *game, int x)
 {
-	int	y;
+	int			y;
 
 	y = draw_start - 1;
 	while (++y < draw_end)
 	{
 		if (!(y > WINDOW_HEIGHT - MINIMAP_SIZE && x > WINDOW_WIDTH - MINIMAP_SIZE))
-			mlx_put_pixel(game->wall, x, y, 255);
+			mlx_put_pixel(game->wall, x, y, 0x7CB342);
 	}
 }
 
@@ -95,8 +95,7 @@ void	raycast(t_game *game) {
 	double	camx;
 
 	x = -1;
-	mlx_delete_image(game->mlx, game->wall);
-	game->wall = mlx_new_image(game->mlx, WINDOW_WIDTH - 1, WINDOW_HEIGHT - 1);
+	ft_bzero(game->wall->pixels, game->wall->width * game->wall->height * sizeof(uint32_t));
 	while (++x < WINDOW_WIDTH)
 	{
 		camx = 2 * x / (double)WINDOW_WIDTH - 1;
