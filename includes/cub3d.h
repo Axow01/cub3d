@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/23 00:29:42 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:36:13 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ bool	parse_headers(t_game *instance, int fd);
 bool    parse_map(t_game *game, int fd);
 
 // RAYCAST
-void		key_hook(mlx_key_data_t keydata, void *param);
 void		raycast(t_game *game);
+
+// MOVEMENT
+void		key_hook(mlx_key_data_t keydata, void *param);
 
 // RENDERING
 void	update_minimap(t_game *game);
