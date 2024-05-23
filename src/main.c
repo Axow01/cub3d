@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 02:17:43 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 22:51:28 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	main(int argc, char **argv) {
 	game.no_texture = mlx_load_png("wall3.png");
 	draw_floor_ceiling(&game);
 	printf("Ceiling: %x Floor: %x\n", game.ceiling_color, game.floor_color);
+	mlx_image_to_window(game.mlx, game.wall, 0, 0);
 	mlx_key_hook(mlx, key_hook, &game);
 	mlx_loop_hook(mlx, loop, &game);
 	mlx_loop(mlx);

@@ -42,7 +42,7 @@ LIBMMS = libmms.a
 all: $(NAME) logo
 
 $(NAME): submodule $(OBJS) $(LIBFTPATH)$(LIBFT) $(MLXPATH)$(MLX)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"/Users/$(USER)/homebrew/opt/glfw/lib/" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_CYAN)$(NAME) COMPILED SUCCESSFULLY...$(RESET)
 
 submodule:

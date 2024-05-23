@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 02:24:40 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/22 22:51:59 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	draw_test_wall(int draw_start, int draw_end, t_game *game, int x)
 	while (++y < draw_end)
 	{
 		if (!(y > WINDOW_HEIGHT - MINIMAP_SIZE && x > WINDOW_WIDTH - MINIMAP_SIZE))
-			mlx_put_pixel(game->wall, x, y, 0x7CB342);
+			mlx_put_pixel(game->wall, x, y, 255);
 	}
 }
 
@@ -109,5 +109,5 @@ void	raycast(t_game *game) {
 			draw_end = WINDOW_HEIGHT - 1;
 		draw_test_wall(draw_start, draw_end, game, x);
 	}
-	mlx_image_to_window(game->mlx, game->wall, 0, 0);
+	// mlx_image_to_window(game->mlx, game->wall, 0, 0); // This is making the game slow, because it's copying the img each time.
 }
