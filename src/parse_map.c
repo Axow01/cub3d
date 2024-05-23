@@ -45,10 +45,8 @@ bool    check_transform(t_game *game, t_map *map)
             else if (map->grid[i].line[j] == 'N' || map->grid[i].line[j] == 'S' ||
                     map->grid[i].line[j] == 'W' || map->grid[i].line[j] == 'E')
             {
-                printf("playerx: %lu, playery: %lu\n", j, i);
+                init_player(&game->player, j, i, at_pos(&game->map, j, i));
                 set_pos(map, j, i, ' ');
-                game->player.px = j + 0.5;
-                game->player.py = i + 0.5;
             }
             j++;
         }

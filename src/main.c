@@ -12,9 +12,28 @@
 
 #include "../includes/cub3d.h"
 
+#include <time.h>
+
+void	get_fps()
+{
+	static	time_t curr_time = 0;
+	static	unsigned int frames = 0;
+
+	if (!curr_time)
+		curr_time = time(NULL);
+	if (time(NULL) > curr_time)
+	{
+		printf("FRAMES: %u\n", frames);
+		frames = 0;
+	}
+	frames++;
+	curr_time = time(NULL);
+	
+}
+
 void	quitting_test(void *param)
 {
-	mlx_delete_image(((t_game*)param)->mlx,((t_game*)param)->floor_ceiling);
+	//mlx_delete_image(((t_game*)param)->mlx,((t_game*)param)->floor_ceiling);
 	mlx_terminate((mlx_t *) ((t_game*)param)->mlx);
 }
 
@@ -24,27 +43,23 @@ void	loop(void *param)
 
 	game = (t_game*)param;
 	raycast(game);
+	get_fps();
 }
 
-t_player	*init_player(t_game *game, float x, float y, char angle) 
+void	init_player(t_player *player, float x, float y, char angle) 
 {
-	t_player	*player;
-
 	(void)angle;
-	player = &game->player;
-	player->px = x;
-	player->py = y;
+	player->px = x + 0.5;
+	player->py = y + 0.5;
 	player->pdx = -1.0;
 	player->pdy = 0.0;
 	player->planex = 0.0;
 	player->planey = 0.66;
-	return (player);
 }
 
 int	main(int argc, char **argv) {
 	struct mlx	*mlx;
 	t_game		game;
-	t_player	*player;
 
 	if (argc != 2)
 		return (0);
@@ -53,13 +68,12 @@ int	main(int argc, char **argv) {
 	if (!(mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3d", false)))
 		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
 	mms_register_callback(quitting_test, &game);
-	player = init_player(&game, 11, 1, 'N');
 	game.mlx = mlx;
 	if (!parse_file(&game, argv[1]))
 		return (0);
 	if (!initialize_minimap(&game))
 		return (0);
-	printf("Player x:%f y: %f\n", player->px, player->py);
+	printf("Player x:%f y: %f\n", game.player.px, game.player.py);
 	update_minimap(&game);
 	game.wall = mlx_new_image(game.mlx, WINDOW_WIDTH - 1, WINDOW_HEIGHT - 1);
 	game.no_texture = mlx_load_png("wall3.png");

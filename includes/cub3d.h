@@ -101,7 +101,6 @@ bool    parse_map(t_game *game, int fd);
 
 // RAYCAST
 void		key_hook(mlx_key_data_t keydata, void *param);
-t_player	*init_player(t_game *game, float x, float y, char angle);
 void		raycast(t_game *game);
 
 // RENDERING
@@ -110,5 +109,8 @@ void	draw_floor_ceiling(t_game *game);
 
 // MINIMAP
 bool	initialize_minimap(t_game *game);
+
+// INIT
+void	init_player(t_player *player, float x, float y, char angle); 
 
 #endif
