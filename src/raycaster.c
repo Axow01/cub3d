@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 22:51:59 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:32:37 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,40 +74,34 @@ static double	dda(t_game *game, double camx)
 	return (get_wall_dist(&ray, &game->player));
 }
 
-static void	draw_test_wall(int draw_start, int draw_end, t_game *game, int x)
+static void	draw_test_wall(t_wall *wall, t_game *game)
 {
 	int			y;
 
-	y = draw_start - 1;
-	while (++y < draw_end)
+	y = wall->start - 1;
+	while (++y < wall->end)
 	{
-		if (!(y > WINDOW_HEIGHT - MINIMAP_SIZE && x > WINDOW_WIDTH - MINIMAP_SIZE))
-			mlx_put_pixel(game->wall, x, y, 255);
+		if (!(y > WINDOW_HEIGHT - MINIMAP_SIZE && wall->x > WINDOW_WIDTH - MINIMAP_SIZE))
+			mlx_put_pixel(game->wall, wall->x, y, 255);
 	}
 }
 
 void	raycast(t_game *game) {
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	int		x;
-	double	wal_dist;
-	double	camx;
+	t_wall	wall;
 
-	x = -1;
+	wall.x = -1;
 	ft_bzero(game->wall->pixels, game->wall->width * game->wall->height * sizeof(uint32_t));
-	while (++x < WINDOW_WIDTH)
+	while (++wall.x < WINDOW_WIDTH)
 	{
-		camx = 2 * x / (double)WINDOW_WIDTH - 1;
-		wal_dist = dda(game, camx);
-		line_height = (int)(WINDOW_HEIGHT / wal_dist);
-		draw_start = -line_height / 2 + WINDOW_HEIGHT / 2;
-		if (draw_start < 0)
-			draw_start = 0;
-		draw_end = line_height / 2 + WINDOW_HEIGHT / 2;
-		if (draw_end >= WINDOW_HEIGHT)
-			draw_end = WINDOW_HEIGHT - 1;
-		draw_test_wall(draw_start, draw_end, game, x);
+		wall.camera = 2 * wall.x / (double)WINDOW_WIDTH - 1;
+		wall.distance = dda(game, wall.camera);
+		wall.height = (int)(WINDOW_HEIGHT / wall.distance);
+		wall.start = -wall.height / 2 + WINDOW_HEIGHT / 2;
+		if (wall.start < 0)
+			wall.start = 0;
+		wall.end = wall.height / 2 + WINDOW_HEIGHT / 2;
+		if (wall.end >= WINDOW_HEIGHT)
+			wall.end = WINDOW_HEIGHT - 1;
+		draw_test_wall(&wall, game);
 	}
-	// mlx_image_to_window(game->mlx, game->wall, 0, 0); // This is making the game slow, because it's copying the img each time.
 }

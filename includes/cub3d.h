@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 01:48:32 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:29:42 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,16 @@ typedef struct s_ray
 	double	ray_dir_y;
 	int		side;
 }			t_ray;
+
+typedef struct	s_wall
+{
+	int		height;
+	int		start;
+	int		end;
+	int		x;
+	double	distance;
+	double	camera;
+}		t_wall;
 
 // MAP UTILS
 char    at_pos(t_map *map, size_t x, size_t y);
