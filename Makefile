@@ -23,6 +23,8 @@ OBJS = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 CC = gcc
 
+ARCH := $(shell uname -m)
+
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -I './includes'
 
 LIBFTPATH = libs/libftms/
@@ -37,12 +39,22 @@ LIBMMSPATH = libs/libmms/
 
 LIBMMS = libmms.a
 
+PATHGLFW_M1 = /opt/homebrew/Cellar/glfw/3.4/lib
+
+PATHGLFW_42 = /Users/$(USER)/homebrew/opt/glfw/lib/
+
+ifeq ($(ARCH), arm64)
+	PATHGLFW = $(PATHGLFW_M1)
+else
+	PATHGLFW = $(PATHGLFW_42)
+endif
+
 #---   RULES   ---#
 
 all: $(NAME) logo
 
 $(NAME): submodule $(OBJS) $(LIBFTPATH)$(LIBFT) $(MLXPATH)$(MLX)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"$(PATHGLFW)" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_CYAN)$(NAME) COMPILED SUCCESSFULLY...$(RESET)
 
 submodule:
