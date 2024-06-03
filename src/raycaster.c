@@ -20,10 +20,10 @@ static void	init_ray(t_ray *ray, t_player *player, double camx)
 	ray->ray_dir_y = player->pdy + player->planey * camx;
 	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
 	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
-	ray->step_x = 1;
 	ray->side_dist_x = (ray->map_x + 1.0 - player->px) * ray->delta_dist_x;
-	ray->step_y = 1;
 	ray->side_dist_y = (ray->map_y + 1.0 - player->py) * ray->delta_dist_y;
+	ray->step_x = 1;
+	ray->step_y = 1;
 	if (ray->ray_dir_x < 0)
 	{
 		ray->step_x = -1;
@@ -40,74 +40,51 @@ static double	get_wall_dist(t_ray *ray, t_player *player)
 {
 	double	wall_dist;
 
-	if (ray->side == 0)
+	if (ray->side <= 1)
 		wall_dist = (ray->map_x - player->px + (1 - ray->step_x) / 2) / ray->ray_dir_x;
 	else
 		wall_dist = (ray->map_y - player->py + (1 - ray->step_y) / 2) / ray->ray_dir_y;
 	return (wall_dist);
 }
 
-static double	dda(t_game *game, double camx)
+static void	dda(t_game *game, t_cast_result *cast)
 {
 	t_ray	ray;
-	bool	hit;
 
-	init_ray(&ray, &game->player, camx);
-	hit = false;
-	while (!hit)
+	init_ray(&ray, &game->player, cast->cam_x);
+	while (true)
 	{
 		if (ray.side_dist_x < ray.side_dist_y)
 		{
 			ray.side_dist_x += ray.delta_dist_x;
 			ray.map_x += ray.step_x;
 			ray.side = 0;
+			if (ray.step_x < 0)
+				ray.side = 1;
 		}
 		else
 		{
 			ray.side_dist_y += ray.delta_dist_y;
 			ray.map_y += ray.step_y;
-			ray.side = 1;
+			ray.side = 2;
+			if (ray.step_y < 0)
+				ray.side = 3;
 		}
 		if (at_pos(&game->map, ray.map_x, ray.map_y) == '1')
-			hit = true;
+			break ;
 	}
-	return (get_wall_dist(&ray, &game->player));
+	cast->map_x = ray.map_x;
+	cast->map_y = ray.map_y;
+	cast->distance = get_wall_dist(&ray, &game->player);
+	cast->hit_x = game->player.px + cast->distance * ray.ray_dir_x;
+	cast->hit_y = game->player.py + cast->distance * ray.ray_dir_y;
+	cast->side = ray.side;
+	cast->ray_dir_x = ray.ray_dir_x;
+	cast->ray_dir_y = ray.ray_dir_y;
 }
 
-static void	draw_test_wall(int draw_start, int draw_end, t_game *game, int x)
+void	raycast(t_game *game, t_cast_result *cast)
 {
-	int			y;
-
-	y = draw_start - 1;
-	while (++y < draw_end)
-	{
-		if (!(y > WINDOW_HEIGHT - MINIMAP_SIZE && x > WINDOW_WIDTH - MINIMAP_SIZE))
-			mlx_put_pixel(game->wall, x, y, 255);
-	}
-}
-
-void	raycast(t_game *game) {
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	int		x;
-	double	wal_dist;
-	double	camx;
-
-	x = -1;
-	ft_bzero(game->wall->pixels, game->wall->width * game->wall->height * sizeof(uint32_t));
-	while (++x < WINDOW_WIDTH)
-	{
-		camx = 2 * x / (double)WINDOW_WIDTH - 1;
-		wal_dist = dda(game, camx);
-		line_height = (int)(WINDOW_HEIGHT / wal_dist);
-		draw_start = -line_height / 2 + WINDOW_HEIGHT / 2;
-		if (draw_start < 0)
-			draw_start = 0;
-		draw_end = line_height / 2 + WINDOW_HEIGHT / 2;
-		if (draw_end >= WINDOW_HEIGHT)
-			draw_end = WINDOW_HEIGHT - 1;
-		draw_test_wall(draw_start, draw_end, game, x);
-	}
-	// mlx_image_to_window(game->mlx, game->wall, 0, 0); // This is making the game slow, because it's copying the img each time.
+	cast->cam_x = 2 * cast->cast_x / (double)WINDOW_WIDTH - 1;
+	dda(game, cast);
 }

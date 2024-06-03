@@ -25,9 +25,9 @@ void	get_fps()
 	{
 		printf("FRAMES: %u\n", frames);
 		frames = 0;
+		curr_time = time(NULL);
 	}
 	frames++;
-	curr_time = time(NULL);
 	
 }
 
@@ -42,13 +42,16 @@ void	loop(void *param)
 	t_game		*game;
 
 	game = (t_game*)param;
-	raycast(game);
+	(void)game;
+	draw_wall(game);
+	handle_movement(game);
 	get_fps();
 }
 
 void	init_player(t_player *player, float x, float y, char angle) 
 {
 	(void)angle;
+	player->initialized = true;
 	player->px = x + 0.5;
 	player->py = y + 0.5;
 	player->pdx = -1.0;
@@ -56,6 +59,8 @@ void	init_player(t_player *player, float x, float y, char angle)
 	player->planex = 0.0;
 	player->planey = 0.66;
 }
+
+
 
 int	main(int argc, char **argv) {
 	struct mlx	*mlx;
@@ -71,14 +76,14 @@ int	main(int argc, char **argv) {
 	game.mlx = mlx;
 	if (!parse_file(&game, argv[1]))
 		return (0);
-	if (!initialize_minimap(&game))
-		return (0);
+	//if (!initialize_minimap(&game))
+	//	return (0);
 	printf("Player x:%f y: %f\n", game.player.px, game.player.py);
-	update_minimap(&game);
+	//update_minimap(&game);
 	game.wall = mlx_new_image(game.mlx, WINDOW_WIDTH - 1, WINDOW_HEIGHT - 1);
-	game.no_texture = mlx_load_png("wall3.png");
 	draw_floor_ceiling(&game);
 	printf("Ceiling: %x Floor: %x\n", game.ceiling_color, game.floor_color);
+	//cast_test(&game);
 	mlx_image_to_window(game.mlx, game.wall, 0, 0);
 	mlx_key_hook(mlx, key_hook, &game);
 	mlx_loop_hook(mlx, loop, &game);

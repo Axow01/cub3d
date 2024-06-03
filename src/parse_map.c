@@ -36,15 +36,13 @@ bool    check_transform(t_game *game, t_map *map)
         while (j < map->grid[i].size)
         {
             if (!ft_strchr(ALLOWED_CHARS, map->grid[i].line[j]))
-            {
-                printf("Char: %d\n", map->grid[i].line[j]);
                 return (false);
-            }
             if (map->grid[i].line[j] == '0')
                 map->grid[i].line[j] = ' ';
             else if (map->grid[i].line[j] == 'N' || map->grid[i].line[j] == 'S' ||
                     map->grid[i].line[j] == 'W' || map->grid[i].line[j] == 'E')
             {
+                printf("INITIALIZING PLAYER AT X: %lu, Y: %lu\n", j, i);
                 init_player(&game->player, j, i, at_pos(&game->map, j, i));
                 set_pos(map, j, i, ' ');
             }
@@ -120,7 +118,12 @@ bool    parse_map(t_game *game, int fd)
         printf("Failed to load map!\n");
         return (false);
     }
-    if (!flood_fill(&game->map, 26, 11))
+    if (!game->player.initialized)
+    {
+        printf("No player found!\n");
+        return (false);
+    }
+    if (!flood_fill(&game->map, game->player.px, game->player.py))
     {
         printf("Invalid map\n");
         return (false);

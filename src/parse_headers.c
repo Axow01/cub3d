@@ -54,7 +54,7 @@ bool get_color(const char *line, unsigned int *color)
             i++;
         if ((line[i] && !ft_isdigit(line[i])) || (!line[i] && j < 2))
             return (false);
-		*color += curr << (8 * (j + 1));
+		*color += curr << (8 * (3 - j));
 		j++;
 	}
 	*color += 255;

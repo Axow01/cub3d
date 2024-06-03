@@ -12,14 +12,14 @@ void	draw_floor_ceiling(t_game *game)
 	while (y < game->floor_ceiling->height)
 	{
 		if (y < WINDOW_HEIGHT / 2)
-			mlx_put_pixel(game->floor_ceiling, x, y, game->ceiling_color);
+			mlx_put_pixel(game->floor_ceiling, x, y, 0xFFFFFF);
 		else
-			mlx_put_pixel(game->floor_ceiling, x, y, game->floor_color);
+			mlx_put_pixel(game->floor_ceiling, x, y, 0xFFFFFF);
 		if (++x >= game->floor_ceiling->width)
 		{
 			x = 0;
 			y++;
 		}
 	}
-	mlx_image_to_window(game->mlx, game->floor_ceiling, 0, 0);
+	//mlx_image_to_window(game->mlx, game->floor_ceiling, 0, 0);
 }
