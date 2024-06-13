@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 22:51:28 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:53:08 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	get_fps()
 		curr_time = time(NULL);
 	}
 	frames++;
-	
 }
 
 void	quitting_test(void *param)

@@ -17,7 +17,7 @@ C_YELLOW = \\x1b[33m
 
 NAME = cub3d
 
-SRC = src/main.c src/map.c src/minimap.c src/movement.c src/parse_headers.c src/parse_map.c src/parsing.c src/raycaster.c src/render_minimap.c src/draw.c
+SRC = src/main.c src/map.c src/minimap.c src/movement.c src/parse_headers.c src/parse_map.c src/parsing.c src/raycaster.c src/render_minimap.c src/draw.c src/wall.c
 
 OBJS = $(patsubst src/%.c, obj/%.o, $(SRC))
 
