@@ -6,13 +6,13 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/05/22 02:16:24 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:56:09 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	calculate_player_pos(t_game *game, keys_t key)
+static void	calculate_player_pos_left(t_game *game, keys_t key)
 {
 	t_player	*player;
 	double		old_dir;
@@ -22,49 +22,82 @@ static void	calculate_player_pos(t_game *game, keys_t key)
 	if (key == MLX_KEY_LEFT)
 	{
 		old_dir = player->pdx;
-		player->pdx = player->pdx * cos(ROT_SPEED) - player->pdy * sin(ROT_SPEED);
+		player->pdx = player->pdx * cos(ROT_SPEED)
+			- player->pdy * sin(ROT_SPEED);
 		player->pdy = old_dir * sin(ROT_SPEED) + player->pdy * cos(ROT_SPEED);
 		old_plane = player->planex;
-		player->planex = player->planex * cos(ROT_SPEED) - player->planey * sin(ROT_SPEED);
-		player->planey = old_plane * sin(ROT_SPEED) + player->planey * cos(ROT_SPEED);
+		player->planex = player->planex * cos(ROT_SPEED)
+			- player->planey * sin(ROT_SPEED);
+		player->planey = old_plane * sin(ROT_SPEED)
+			+ player->planey * cos(ROT_SPEED);
 	}
+}
+
+static void	calculate_player_pos(t_game *game, keys_t key)
+{
+	t_player	*player;
+	double		old_dir;
+	double		old_plane;
+
+	player = &game->player;
+	calculate_player_pos_left(game, key);
 	if (key == MLX_KEY_RIGHT)
 	{
 		old_dir = player->pdx;
-		player->pdx = player->pdx * cos(-ROT_SPEED) - player->pdy * sin(-ROT_SPEED);
+		player->pdx = player->pdx * cos(-ROT_SPEED)
+			- player->pdy * sin(-ROT_SPEED);
 		player->pdy = old_dir * sin(-ROT_SPEED) + player->pdy * cos(-ROT_SPEED);
 		old_plane = player->planex;
-		player->planex = player->planex * cos(-ROT_SPEED) - player->planey * sin(-ROT_SPEED);
-		player->planey = old_plane * sin(-ROT_SPEED) + player->planey * cos(-ROT_SPEED);
+		player->planex = player->planex * cos(-ROT_SPEED)
+			- player->planey * sin(-ROT_SPEED);
+		player->planey = old_plane * sin(-ROT_SPEED)
+			+ player->planey * cos(-ROT_SPEED);
+	}
+}
+
+static void	side_move_two(t_game *game, keys_t key)
+{
+	if (key == MLX_KEY_W)
+	{
+		if (at_pos(&game->map, game->player.px + game->player.pdx * 0.05,
+				game->player.py + game->player.pdy * 0.05) != '1')
+		{
+			game->player.px += game->player.pdx * 0.05;
+			game->player.py += game->player.pdy * 0.05;
+		}
+	}
+	if (key == MLX_KEY_S)
+	{
+		if (at_pos(&game->map, game->player.px - game->player.pdx * 0.05,
+				game->player.py - game->player.pdy * 0.05) != '1')
+		{
+			game->player.px -= game->player.pdx * 0.05;
+			game->player.py -= game->player.pdy * 0.05;
+		}
 	}
 }
 
 static void	side_move(t_game *game, keys_t key)
 {
-	if (key == MLX_KEY_W)
-		if (at_pos(&game->map, game->player.px + game->player.pdx * 0.05, game->player.py + game->player.pdy * 0.05) != '1')
-		{
-			game->player.px += game->player.pdx * 0.05;
-			game->player.py += game->player.pdy * 0.05;
-		}
-	if (key == MLX_KEY_S)
-		if (at_pos(&game->map, game->player.px - game->player.pdx * 0.05, game->player.py - game->player.pdy * 0.05) != '1')
-		{
-			game->player.px -= game->player.pdx * 0.05;
-			game->player.py -= game->player.pdy * 0.05;
-		}
+	side_move_two(game, key);
 	if (key == MLX_KEY_A)
-		if (at_pos(&game->map, game->player.px - game->player.planex * 0.05, game->player.py - game->player.planey * 0.05) != '1')
+	{
+		if (at_pos(&game->map, game->player.px - game->player.planex * 0.05,
+				game->player.py - game->player.planey * 0.05) != '1')
 		{
 			game->player.px -= game->player.planex * 0.05;
 			game->player.py -= game->player.planey * 0.05;
 		}
+	}
 	if (key == MLX_KEY_D)
-		if (at_pos(&game->map, game->player.px + game->player.planex * 0.05, game->player.py + game->player.planey * 0.05) != '1')
+	{
+		if (at_pos(&game->map, game->player.px + game->player.planex * 0.05,
+				game->player.py + game->player.planey * 0.05) != '1')
 		{
 			game->player.px += game->player.planex * 0.05;
 			game->player.py += game->player.planey * 0.05;
 		}
+	}
 }
 
 
@@ -73,7 +106,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	t_game		*game;
 	bool		state;
 
-	game = (t_game*)param;
+	game = (t_game *)param;
 	state = false;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mms_kill("Escaped!", true, 0);
@@ -81,7 +114,6 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		state = true;
 	else if (keydata.action == MLX_RELEASE)
 		state = false;
-	// Change to remove this if
 	if (keydata.action == MLX_RELEASE || keydata.action == MLX_PRESS)
 	{
 		if (keydata.key == MLX_KEY_W)
