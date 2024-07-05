@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/06/22 11:52:38 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:25:43 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ static double	get_wall_dist(t_ray *ray, t_player *player)
 	double	wall_dist;
 
 	if (ray->side <= 1)
-		wall_dist = (ray->map_x - player->px + (1 - ray->step_x) / 2) / ray->ray_dir_x;
+		wall_dist = (ray->map_x - player->px
+				+ (1 - ray->step_x) / 2) / ray->ray_dir_x;
 	else
-		wall_dist = (ray->map_y - player->py + (1 - ray->step_y) / 2) / ray->ray_dir_y;
+		wall_dist = (ray->map_y - player->py
+				+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
 	return (wall_dist);
 }
 
-static void	dda(t_game *game, t_cast_result *cast)
+static void	dda(t_game *game, t_cast_result *cast, t_ray ray)
 {
-	t_ray	ray;
-
 	init_ray(&ray, &game->player, cast->cam_x);
 	while (true)
 	{
@@ -73,6 +73,11 @@ static void	dda(t_game *game, t_cast_result *cast)
 		if (at_pos(&game->map, ray.map_x, ray.map_y) == '1')
 			break ;
 	}
+	cast_setup(cast, game, ray);
+}
+
+void	cast_setup(t_cast_result *cast, t_game *game, t_ray ray)
+{
 	cast->map_x = ray.map_x;
 	cast->map_y = ray.map_y;
 	cast->distance = get_wall_dist(&ray, &game->player);
@@ -85,6 +90,8 @@ static void	dda(t_game *game, t_cast_result *cast)
 
 void	raycast(t_game *game, t_cast_result *cast)
 {
+	t_ray	ray;
+
 	cast->cam_x = 2 * cast->cast_x / (double)WINDOW_WIDTH - 1;
 	dda(game, cast);
 }

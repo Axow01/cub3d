@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/06/22 11:51:48 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:18:25 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ typedef struct s_minimap
 	mlx_image_t	*minimap_img;
 }				t_minimap;
 
-typedef struct	s_player {
+typedef struct s_player
+{
 	bool	initialized;
 	double	px;
 	double	py;
@@ -62,7 +63,7 @@ typedef struct	s_player {
 	double	planey;
 }			t_player;
 
-typedef struct	s_keystates
+typedef struct s_keystates
 {
 	bool	forward;
 	bool	backward;
@@ -87,7 +88,7 @@ typedef struct s_game
 	mlx_texture_t	*ea_texture;
 	mlx_image_t		*wall;
 	mlx_image_t		*floor_ceiling;
-} t_game;
+}		t_game;
 
 typedef struct s_ray
 {
@@ -104,7 +105,7 @@ typedef struct s_ray
 	int		side;
 }			t_ray;
 
-typedef struct	s_wall
+typedef struct s_wall
 {
 	int		height;
 	int		start;
@@ -129,20 +130,20 @@ typedef struct s_cast_result
 }			t_cast_result;
 
 // MAP UTILS
-char    at_pos(t_map *map, size_t x, size_t y);
-void    set_pos(t_map *map, size_t x, size_t y, char val);
+char	at_pos(t_map *map, size_t x, size_t y);
+void	set_pos(t_map *map, size_t x, size_t y, char val);
 
 // PARSING
-bool    parse_file(t_game *game, char *filename);
+bool	parse_file(t_game *game, char *filename);
 bool	parse_headers(t_game *instance, int fd);
-bool    parse_map(t_game *game, int fd);
+bool	parse_map(t_game *game, int fd);
 
 // RAYCAST
-void		key_hook(mlx_key_data_t keydata, void *param);
-void		raycast(t_game *game, t_cast_result *cast);
+void	key_hook(mlx_key_data_t keydata, void *param);
+void	raycast(t_game *game, t_cast_result *cast);
 
 // MOVEMENT
-void		key_hook(mlx_key_data_t keydata, void *param);
+void	key_hook(mlx_key_data_t keydata, void *param);
 
 // RENDERING
 void	update_minimap(t_game *game);
@@ -153,9 +154,10 @@ void	draw_wall(t_game *game);
 bool	initialize_minimap(t_game *game);
 
 // INIT
-void	init_player(t_player *player, float x, float y, char angle); 
+void	init_player(t_player *player, float x, float y, char angle);
 
 // MOVEMENT
 void	handle_movement(t_game *game);
+void	check_states(mlx_key_data_t keydata, t_game *game);
 
 #endif

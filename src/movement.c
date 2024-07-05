@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/06/27 13:56:09 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:18:30 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ static void	side_move(t_game *game, keys_t key)
 	}
 }
 
-
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game		*game;
@@ -114,43 +113,5 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		state = true;
 	else if (keydata.action == MLX_RELEASE)
 		state = false;
-	if (keydata.action == MLX_RELEASE || keydata.action == MLX_PRESS)
-	{
-		if (keydata.key == MLX_KEY_W)
-			game->keystates.forward = state;
-		else if (keydata.key == MLX_KEY_S)
-			game->keystates.backward = state;
-		else if (keydata.key == MLX_KEY_A)
-			game->keystates.left = state;
-		else if (keydata.key == MLX_KEY_D)
-			game->keystates.right = state;
-		else if (keydata.key == MLX_KEY_LEFT)
-			game->keystates.rleft = state;
-		else if (keydata.key == MLX_KEY_RIGHT)
-			game->keystates.rright = state;
-	}
-}
-
-// Fix so it doesnt move according to player fps
-void	handle_movement(t_game *game)
-{
-	static double	last_update = 0;
-
-	last_update += game->mlx->delta_time;
-	if (last_update > 0.00001)
-	{
-		last_update = 0;
-		if (game->keystates.forward)
-			side_move(game, MLX_KEY_W);
-		if (game->keystates.backward)
-			side_move(game, MLX_KEY_S);
-		if (game->keystates.right)
-			side_move(game, MLX_KEY_D);
-		if (game->keystates.left)
-			side_move(game, MLX_KEY_A);
-		if (game->keystates.rright)
-			calculate_player_pos(game, MLX_KEY_RIGHT);
-		if (game->keystates.rleft)
-			calculate_player_pos(game, MLX_KEY_LEFT);
-	}
+	check_states(keydata, game);
 }

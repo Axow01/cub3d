@@ -59,8 +59,6 @@ void	init_player(t_player *player, float x, float y, char angle)
 	player->planey = 0.66;
 }
 
-
-
 int	main(int argc, char **argv)
 {
 	struct mlx	*mlx;
