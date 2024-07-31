@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_headers.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/29 07:07:33 by mmarcott          #+#    #+#             */
+/*   Updated: 2024/07/29 08:29:44 by mmarcott         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 // loads the path -> checks if the variable has already
 // been set if so, returns false because duplicate symbol
-bool load_texture(t_game *instance, char *line)
+bool	load_texture(t_game *instance, char *line)
 {
 	int				i;
 	mlx_texture_t	*texture;
@@ -10,7 +22,7 @@ bool load_texture(t_game *instance, char *line)
 	i = 2;
 	while (line[++i])
 		if (line[i] != ' ')
-			break;
+			break ;
 	texture = mlx_load_png(&line[i]);
 	if (!texture)
 		return (false);
@@ -31,16 +43,16 @@ bool load_texture(t_game *instance, char *line)
 }
 
 // Ugly need rework?
-bool get_color(const char *line, unsigned int *color)
+bool	get_color(const char *line, unsigned int *color)
 {
 	int	i;
 	int	curr;
-    int j;
+	int	j;
 
 	i = 0;
 	*color = 0;
 	j = 0;
-    if (ft_strlen(line) > 11)
+	if (ft_strlen(line) > 11)
 		return (false);
 	while (j < 3)
 	{
@@ -49,11 +61,10 @@ bool get_color(const char *line, unsigned int *color)
 			return (false);
 		while (line[i] && ft_isdigit(line[i]))
 			i++;
-        if (line[i] && line[i] == ',')
-		
-            i++;
-        if ((line[i] && !ft_isdigit(line[i])) || (!line[i] && j < 2))
-            return (false);
+		if (line[i] && line[i] == ',')
+			i++;
+		if ((line[i] && !ft_isdigit(line[i])) || (!line[i] && j < 2))
+			return (false);
 		*color += curr << (8 * (3 - j));
 		j++;
 	}
@@ -62,7 +73,7 @@ bool get_color(const char *line, unsigned int *color)
 }
 
 // replace with iswhitespace?
-bool color_from_text(t_game *instance, char *line)
+bool	color_from_text(t_game *instance, char *line)
 {
 	int				i;
 	static bool		floor = false;
@@ -73,7 +84,7 @@ bool color_from_text(t_game *instance, char *line)
 	color = 0;
 	while (line[++i])
 		if (line[i] != ' ')
-			break;
+			break ;
 	if (!get_color(&line[i], &color))
 		return (false);
 	if (line[0] == 'C' && !ceiling)
@@ -91,30 +102,36 @@ bool color_from_text(t_game *instance, char *line)
 	return (true);
 }
 
-bool parse_headers(t_game *instance, int fd)
+bool	test_norm(char *line, t_game *instance, bool *res, int fd)
 {
-	char	*line;
-	int		found;
-	bool	res;
+	int	found;
 
 	found = 0;
+}
+
+bool	parse_headers(t_game *instance, int fd)
+{
+	char	*line;
+	bool	res;
+	int		found;
+
 	line = get_next_line(fd);
 	res = true;
+	found = 0;
 	while (line)
 	{
 		if (ft_strchr(line, '\n'))
 			*ft_strchr(line, '\n') = 0;
-		if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3) ||
-				!ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
+		if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+			|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
 			res = load_texture(instance, line);
-
 		else if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
 			res = color_from_text(instance, line);
 		else if (ft_strlen(line) < 1)
 		{
 			mms_free(line);
 			line = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		mms_free(line);
 		if (!res)

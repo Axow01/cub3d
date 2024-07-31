@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/07/05 19:18:30 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/07/29 08:44:19 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,6 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	else if (keydata.action == MLX_RELEASE)
 		state = false;
 	check_states(keydata, game);
+	if (state)
+		state = true;
 }
