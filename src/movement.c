@@ -6,13 +6,13 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/07/29 08:44:19 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:15:42 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	calculate_player_pos_left(t_game *game, keys_t key)
+void	calculate_player_pos_left(t_game *game, keys_t key)
 {
 	t_player	*player;
 	double		old_dir;
@@ -33,7 +33,7 @@ static void	calculate_player_pos_left(t_game *game, keys_t key)
 	}
 }
 
-static void	calculate_player_pos(t_game *game, keys_t key)
+void	calculate_player_pos(t_game *game, keys_t key)
 {
 	t_player	*player;
 	double		old_dir;
@@ -55,7 +55,7 @@ static void	calculate_player_pos(t_game *game, keys_t key)
 	}
 }
 
-static void	side_move_two(t_game *game, keys_t key)
+void	side_move_two(t_game *game, keys_t key)
 {
 	if (key == MLX_KEY_W)
 	{
@@ -77,7 +77,7 @@ static void	side_move_two(t_game *game, keys_t key)
 	}
 }
 
-static void	side_move(t_game *game, keys_t key)
+void	side_move(t_game *game, keys_t key)
 {
 	side_move_two(game, key);
 	if (key == MLX_KEY_A)
@@ -113,7 +113,11 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		state = true;
 	else if (keydata.action == MLX_RELEASE)
 		state = false;
-	check_states(keydata, game);
+	// check_states(keydata, game);
+	calculate_player_pos(game, keydata.key);
+	calculate_player_pos_left(game, keydata.key);
+	side_move(game, keydata.key);
+	side_move_two(game, keydata.key);
 	if (state)
 		state = true;
 }

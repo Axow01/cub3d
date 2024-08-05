@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 07:07:33 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/07/29 08:29:44 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:04:49 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,12 @@ bool	color_from_text(t_game *instance, char *line)
 	return (true);
 }
 
-bool	test_norm(char *line, t_game *instance, bool *res, int fd)
-{
-	int	found;
+// bool	test_norm(char *line, t_game *instance, bool *res, int fd)
+// {
+// 	int	found;
 
-	found = 0;
-}
+// 	found = 0;
+// }
 
 bool	parse_headers(t_game *instance, int fd)
 {

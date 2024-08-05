@@ -17,7 +17,7 @@ C_YELLOW = \\x1b[33m
 
 NAME = cub3d
 
-SRC = src/main.c src/map.c src/minimap.c src/movement.c src/parse_headers.c src/parse_map.c src/parsing.c src/raycaster.c src/render_minimap.c src/draw.c src/wall.c
+SRC = src/main.c src/map.c src/minimap.c src/movement.c src/parse_headers.c src/parse_map.c src/parsing.c src/raycaster.c src/render_minimap.c src/draw.c src/wall.c src/handler.c
 
 OBJS = $(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -50,11 +50,16 @@ else
 endif
 
 #---   RULES   ---#
+# Macos compilation settings
+# @$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"$(PATHGLFW)" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
+# Windows WSL compilation settings
+# @$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -ldl -lglfw -pthread -lm -o $(NAME)
+
 
 all: $(NAME) logo
 
 $(NAME): submodule $(OBJS) $(LIBFTPATH)$(LIBFT) $(MLXPATH)$(MLX)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"$(PATHGLFW)" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -ldl -lglfw -pthread -lm -o $(NAME)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_CYAN)$(NAME) COMPILED SUCCESSFULLY...$(RESET)
 
 submodule:

@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/07/05 23:18:51 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:16:16 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,10 @@ void	raycast(t_game *game, t_cast_result *cast);
 
 // MOVEMENT
 void	key_hook(mlx_key_data_t keydata, void *param);
+void	calculate_player_pos_left(t_game *game, keys_t key);
+void	calculate_player_pos(t_game *game, keys_t key);
+void	side_move_two(t_game *game, keys_t key);
+void	side_move(t_game *game, keys_t key);
 
 // RENDERING
 void	update_minimap(t_game *game);
