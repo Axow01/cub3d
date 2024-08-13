@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 07:07:33 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/05 11:04:49 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:38:53 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,37 +109,68 @@ bool	color_from_text(t_game *instance, char *line)
 // 	found = 0;
 // }
 
+bool	process_line(t_game *instance, char *line)
+{
+	if (ft_strchr(line, '\n'))
+		*ft_strchr(line, '\n') = 0;
+	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
+		return (load_texture(instance, line));
+	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
+		return (color_from_text(instance, line));
+	return (ft_strlen(line) < 1);
+}
+
 bool	parse_headers(t_game *instance, int fd)
 {
 	char	*line;
-	bool	res;
 	int		found;
 
-	line = get_next_line(fd);
-	res = true;
 	found = 0;
+	line = get_next_line(fd);
 	while (line)
 	{
-		if (ft_strchr(line, '\n'))
-			*ft_strchr(line, '\n') = 0;
-		if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
-			|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
-			res = load_texture(instance, line);
-		else if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
-			res = color_from_text(instance, line);
-		else if (ft_strlen(line) < 1)
-		{
-			mms_free(line);
-			line = get_next_line(fd);
-			continue ;
-		}
+		if (!process_line(instance, line))
+			return (mms_free(line), false);
 		mms_free(line);
-		if (!res)
-			return (false);
-		found++;
-		if (found == 6)
+		if (++found == 6)
 			return (true);
 		line = get_next_line(fd);
 	}
 	return (false);
 }
+
+// bool	parse_headers(t_game *instance, int fd)
+// {
+// 	char	*line;
+// 	bool	res;
+// 	int		found;
+
+// 	line = get_next_line(fd);
+// 	res = true;
+// 	found = 0;
+// 	while (line)
+// 	{
+// 		if (ft_strchr(line, '\n'))
+// 			*ft_strchr(line, '\n') = 0;
+// 		if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+// 			|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
+// 			res = load_texture(instance, line);
+// 		else if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
+// 			res = color_from_text(instance, line);
+// 		else if (ft_strlen(line) < 1)
+// 		{
+// 			mms_free(line);
+// 			line = get_next_line(fd);
+// 			continue ;
+// 		}
+// 		mms_free(line);
+// 		if (!res)
+// 			return (false);
+// 		found++;
+// 		if (found == 6)
+// 			return (true);
+// 		line = get_next_line(fd);
+// 	}
+// 	return (false);
+// }

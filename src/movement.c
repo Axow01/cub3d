@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/05 11:15:42 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:45:44 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	side_move(t_game *game, keys_t key)
 	}
 }
 
+// check_states(keydata, game);
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game		*game;
@@ -113,7 +114,6 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		state = true;
 	else if (keydata.action == MLX_RELEASE)
 		state = false;
-	// check_states(keydata, game);
 	calculate_player_pos(game, keydata.key);
 	calculate_player_pos_left(game, keydata.key);
 	side_move(game, keydata.key);

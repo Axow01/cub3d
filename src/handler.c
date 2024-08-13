@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:11:38 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/05 11:18:33 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:13:05 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	handle_movement(t_game *game)
 
 void	check_states(mlx_key_data_t keydata, t_game *game)
 {
-	bool state;
+	bool	state;
 
 	state = true;
 	if (keydata.action == MLX_RELEASE || keydata.action == MLX_PRESS)
@@ -55,5 +55,17 @@ void	check_states(mlx_key_data_t keydata, t_game *game)
 			game->keystates.rleft = state;
 		else if (keydata.key == MLX_KEY_RIGHT)
 			game->keystates.rright = state;
+	}
+}
+
+void	print_map(t_map *map)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < map->size)
+	{
+		printf("%s\n", map->grid[i].line);
+		i++;
 	}
 }

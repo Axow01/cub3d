@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/05 11:16:16 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:21:56 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,16 @@ typedef struct s_cast_result
 	double	distance;
 }			t_cast_result;
 
+typedef struct s_linedraw
+{
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	double			step_size;
+	double			wall_y;
+	unsigned int	color;
+}			t_linedraw;
+
 // MAP UTILS
 char	at_pos(t_map *map, size_t x, size_t y);
 void	set_pos(t_map *map, size_t x, size_t y, char val);
@@ -137,6 +147,7 @@ void	set_pos(t_map *map, size_t x, size_t y, char val);
 bool	parse_file(t_game *game, char *filename);
 bool	parse_headers(t_game *instance, int fd);
 bool	parse_map(t_game *game, int fd);
+void	print_map(t_map *map);
 
 // RAYCAST
 void	key_hook(mlx_key_data_t keydata, void *param);
