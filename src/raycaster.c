@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:14:55 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/05 11:06:02 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:43:47 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	raycast(t_game *game, t_cast_result *cast)
 {
 	t_ray	ray;
 
+	ft_bzero(&ray, sizeof(t_ray));
 	cast->cam_x = 2 * cast->cast_x / (double)WINDOW_WIDTH - 1;
 	dda(game, cast, ray);
 }
