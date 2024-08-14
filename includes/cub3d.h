@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/13 12:21:56 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:42:04 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ typedef struct s_linedraw
 	int				draw_end;
 	double			step_size;
 	double			wall_y;
-	unsigned int	color;
+	uint8_t			color;
 }			t_linedraw;
 
 // MAP UTILS
