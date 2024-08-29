@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/14 10:42:04 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:55:43 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define ALLOWED_CHARS " 01NSEW"
 # define PI 3.14159
 
-# define WINDOW_HEIGHT 1080
-# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 800
+# define WINDOW_WIDTH 1000
 
 # define MINIMAP_SIZE 100
 # define ROT_SPEED 0.05
