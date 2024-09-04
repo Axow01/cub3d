@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:19:13 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/14 10:49:47 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:15:20 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ static void	draw_sky_floor(t_game *game, int x, int draw_start, int draw_end)
 	}
 }
 
+static uint32_t	create_rgb(int r, int g, int b) {
+	int	t;
+
+	t = 0;
+	return(t << 24 | r << 16 | g << 8 | b);
+}
+
 static void	draw_line(t_game *game, t_cast_result *res
 	, mlx_texture_t *texture, int x_index)
 {
@@ -81,7 +88,7 @@ static void	draw_line(t_game *game, t_cast_result *res
 		line.wall_y += line.step_size;
 		line.color = ((unsigned int *)texture->pixels)[texture->height
 			* ((int)line.wall_y & (texture->height - 1)) + x_index];
-		mlx_put_pixel(game->wall, res->cast_x, line.draw_start, line.color);
+		mlx_put_pixel(game->wall, res->cast_x, line.draw_start, create_rgb(line.color << 24, line.color << 16, line.color << 8));
 		line.draw_start++;
 	}
 }
