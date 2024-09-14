@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/04 12:02:16 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:42:05 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,14 @@ typedef struct s_linedraw
 	uint8_t			color;
 	uint32_t		colorb;
 }			t_linedraw;
+
+typedef struct	s_rgba
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+}		t_rgba;
 
 // MAP UTILS
 char	at_pos(t_map *map, size_t x, size_t y);
