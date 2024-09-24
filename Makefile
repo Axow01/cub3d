@@ -25,7 +25,7 @@ CC = gcc
 
 ARCH := $(shell uname -m)
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -I './includes'
+CFLAGS = -Wall -Wextra -Werror -g -I './includes'
 
 LIBFTPATH = libs/libftms/
 

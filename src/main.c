@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/24 12:40:33 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:30:03 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	init_player(t_player *player, float x, float y, char angle)
 
 int	main(int argc, char **argv)
 {
-	struct mlx	*mlx;
+	mlx_t		*mlx;
 	t_game		game;
 
 	if (argc != 2)
@@ -115,7 +115,7 @@ int	main(int argc, char **argv)
 	mlx_image_to_window(game.mlx, game.wall, 0, 0);
 	mlx_key_hook(mlx, key_hook, &game);
 	mlx_loop_hook(mlx, loop, &game);
-	mlx_loop(mlx);
+	mlx_loop(game.mlx);
 	mms_kill("Qutting without key!\n", false, 0);
 	return (0);
 }
