@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:19:13 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/13 23:14:36 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:21:40 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 mlx_texture_t	*get_texture(t_game *game, t_cast_result *res)
 {
 	if (res->side == 3)
-		return (game->so_texture);
-	if (res->side == 2)
 		return (game->no_texture);
+	if (res->side == 2)
+		return (game->so_texture);
 	if (res->side == 1)
 		return (game->we_texture);
 	if (res->side == 0)
@@ -26,21 +26,6 @@ mlx_texture_t	*get_texture(t_game *game, t_cast_result *res)
 		res->side, res->hit_x, res->hit_y, res->map_x, res->map_y);
 	return (game->no_texture);
 }
-/*
-static void	draw_test_wall(t_game *game, int draw_start, int draw_end, int x)
-{
-	int			y;
-
-	y = draw_start - 1;
-	while (++y < draw_end)
-	{
-			if (y % 2)
-				mlx_put_pixel(game->wall, x, y, 0x7d4777ff);
-			else
-				mlx_put_pixel(game->wall, x, y, 0x7d4777ff);
-
-	}
-}*/
 
 static void	draw_sky_floor(t_game *game, int x, int draw_start, int draw_end)
 {
@@ -60,17 +45,9 @@ static void	draw_sky_floor(t_game *game, int x, int draw_start, int draw_end)
 	}
 }
 
-// static uint32_t	create_rgb(int r, int g, int b) {
-// 	int	t;
-
-// 	t = 0;
-// 	return(t << 24 | r << 16 | g << 8 | b);
-// }
-
-static uint32_t	get_color_texture(mlx_texture_t *texture)
+static uint32_t	get_color_texture(mlx_texture_t *texture, unsigned int i)
 {
-	static unsigned int	i = 0;
-	t_rgba				rgb;
+	t_rgba	rgb;
 
 	if (i >= (texture->height * texture->width) * texture->bytes_per_pixel) {
 		i = 0;
@@ -86,7 +63,8 @@ static void	draw_line(t_game *game, t_cast_result *res
 	, mlx_texture_t *texture, int x_index)
 {
 	t_linedraw	line;
-	(void) x_index;
+	double texture_pos;
+	int			tex_y;
 
 	line.line_height = (int)(WINDOW_HEIGHT / res->distance);
 	line.draw_start = -line.line_height / 2 + WINDOW_HEIGHT / 2;
@@ -99,9 +77,14 @@ static void	draw_line(t_game *game, t_cast_result *res
 	line.wall_y = (line.draw_start
 			- WINDOW_HEIGHT / 2 + line.line_height / 2) * line.step_size;
 	draw_sky_floor(game, res->cast_x, line.draw_start, line.draw_end);
+	texture_pos = (line.draw_start - WINDOW_HEIGHT / 2 + line.line_height / 2) * line.step_size;
 	while (line.draw_start < line.draw_end)
 	{
-		mlx_put_pixel(game->wall, res->cast_x, line.draw_start++, get_color_texture(texture));
+		tex_y = (int)texture_pos & (texture->height - 1);
+		texture_pos += line.step_size;
+		line.colorb = get_color_texture(texture, (texture->height * tex_y + x_index) * texture->bytes_per_pixel);
+		mlx_put_pixel(game->wall, res->cast_x, line.draw_start, line.colorb);
+		line.draw_start++;
 	}
 }
 
@@ -120,6 +103,7 @@ static void	draw_texture(t_game *game, t_cast_result *res)
 	if ((res->side >= 2 && res->ray_dir_y < 0)
 		|| (res->side <= 1 && res->ray_dir_x > 0))
 		x_index = texture->width - x_index - 1;
+
 	draw_line(game, res, texture, x_index);
 }
 

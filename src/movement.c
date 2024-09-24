@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 04:46:26 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/08/13 11:45:44 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:41:05 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	calculate_player_pos_left(t_game *game, keys_t key)
 	double		old_plane;
 
 	player = &game->player;
-	if (key == MLX_KEY_LEFT)
+	if (key == MLX_KEY_RIGHT)
 	{
 		old_dir = player->pdx;
 		player->pdx = player->pdx * cos(ROT_SPEED)
@@ -41,7 +41,7 @@ void	calculate_player_pos(t_game *game, keys_t key)
 
 	player = &game->player;
 	calculate_player_pos_left(game, key);
-	if (key == MLX_KEY_RIGHT)
+	if (key == MLX_KEY_LEFT)
 	{
 		old_dir = player->pdx;
 		player->pdx = player->pdx * cos(-ROT_SPEED)
@@ -109,7 +109,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	game = (t_game *)param;
 	state = false;
 	if (keydata.key == MLX_KEY_ESCAPE)
-		mms_kill("Escaped!", true, 0);
+		mms_kill("Escaped!\n", true, 0);
 	if (keydata.action == MLX_PRESS)
 		state = true;
 	else if (keydata.action == MLX_RELEASE)

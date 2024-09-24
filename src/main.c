@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/13 21:54:21 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:40:33 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ void	get_fps(void)
 
 void	quitting_test(void *param)
 {
+	t_game	*game;
+
+	game = (t_game *)param;
+	mlx_delete_texture(game->no_texture);
+	mlx_delete_texture(game->so_texture);
+	mlx_delete_texture(game->we_texture);
+	mlx_delete_texture(game->ea_texture);
+	mlx_delete_image(game->mlx, game->wall);
+	mlx_delete_image(game->mlx, game->floor_ceiling);
 	mlx_terminate((mlx_t *)((t_game *)param)->mlx);
 }
 
@@ -49,14 +58,38 @@ void	loop(void *param)
 
 void	init_player(t_player *player, float x, float y, char angle)
 {
-	(void)angle;
 	player->initialized = true;
 	player->px = x + 0.5;
 	player->py = y + 0.5;
-	player->pdx = -1.0;
-	player->pdy = 0.0;
-	player->planex = 0.0;
-	player->planey = 0.66;
+
+	if (angle == 'N')
+	{
+		player->pdx = 0.0;
+		player->pdy = -1.0;
+		player->planex = 0.66;
+		player->planey = 0.0;
+	}
+	else if (angle == 'S')
+	{
+		player->pdx = 0.0;
+		player->pdy = 1.0;
+		player->planex = -0.66;
+		player->planey = 0.0;
+	}
+	else if (angle == 'W')
+	{
+		player->pdx = -1.0;
+		player->pdy = 0.0;
+		player->planex = 0.0;
+		player->planey = -0.66;
+	}
+	else if (angle == 'E')
+	{
+		player->pdx = 1.0;
+		player->pdy = 0.0;
+		player->planex = 0.0;
+		player->planey = 0.66;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -83,6 +116,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(mlx, key_hook, &game);
 	mlx_loop_hook(mlx, loop, &game);
 	mlx_loop(mlx);
-	mms_kill("", false, 0);
+	mms_kill("Qutting without key!\n", false, 0);
 	return (0);
 }

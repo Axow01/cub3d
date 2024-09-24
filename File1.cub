@@ -1,6 +1,6 @@
 NO ./wall10.png
-SO ./wall3.png
-WE ./wall3.png
+SO ./wall2.png
+WE ./wall1.png
 EA ./wall3.png
 F 0,0,255
 C 155,50,0
