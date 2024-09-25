@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/24 13:30:03 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:56:50 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	quitting_test(void *param)
 	mlx_delete_texture(game->ea_texture);
 	mlx_delete_image(game->mlx, game->wall);
 	mlx_delete_image(game->mlx, game->floor_ceiling);
-	mlx_terminate((mlx_t *)((t_game *)param)->mlx);
+	mlx_terminate(game->mlx);
 }
 
 void	loop(void *param)
