@@ -25,7 +25,7 @@ CC = gcc
 
 ARCH := $(shell uname -m)
 
-CFLAGS = -Wall -Wextra -Werror -g -I './includes'
+CFLAGS = -Wall -Wextra -Werror -g -I './includes' -fsanitize=address
 
 LIBFTPATH = libs/libftms/
 
@@ -59,7 +59,7 @@ endif
 all: $(NAME) logo
 
 $(NAME): submodule $(OBJS) $(LIBFTPATH)$(LIBFT) $(MLXPATH)$(MLX)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -ldl -lglfw -pthread -lm -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"$(PATHGLFW)" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
 	@echo $(F_BOLD)$(F_ITALIC)$(C_CYAN)$(NAME) COMPILED SUCCESSFULLY...$(RESET)
 
 submodule:

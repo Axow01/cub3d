@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/25 10:56:50 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/10/11 10:47:58 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	quitting_test(void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
+	mms_register_callback(NULL, NULL);
 	mlx_delete_texture(game->no_texture);
 	mlx_delete_texture(game->so_texture);
 	mlx_delete_texture(game->we_texture);
