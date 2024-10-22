@@ -6,26 +6,11 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:19:13 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/24 12:21:40 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:13:25 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-mlx_texture_t	*get_texture(t_game *game, t_cast_result *res)
-{
-	if (res->side == 3)
-		return (game->no_texture);
-	if (res->side == 2)
-		return (game->so_texture);
-	if (res->side == 1)
-		return (game->we_texture);
-	if (res->side == 0)
-		return (game->ea_texture);
-	printf("SIDE: %d, HIT_X: %f, HIT_Y: %f, MAPX: %d, MAPY: %d\n",
-		res->side, res->hit_x, res->hit_y, res->map_x, res->map_y);
-	return (game->no_texture);
-}
 
 static void	draw_sky_floor(t_game *game, int x, int draw_start, int draw_end)
 {
@@ -49,9 +34,8 @@ static uint32_t	get_color_texture(mlx_texture_t *texture, unsigned int i)
 {
 	t_rgba	rgb;
 
-	if (i >= (texture->height * texture->width) * texture->bytes_per_pixel) {
+	if (i >= (texture->height * texture->width) * texture->bytes_per_pixel)
 		i = 0;
-	}
 	rgb.r = texture->pixels[i++];
 	rgb.g = texture->pixels[i++];
 	rgb.b = texture->pixels[i++];
@@ -63,26 +47,19 @@ static void	draw_line(t_game *game, t_cast_result *res
 	, mlx_texture_t *texture, int x_index)
 {
 	t_linedraw	line;
-	double texture_pos;
+	double		texture_pos;
 	int			tex_y;
 
-	line.line_height = (int)(WINDOW_HEIGHT / res->distance);
-	line.draw_start = -line.line_height / 2 + WINDOW_HEIGHT / 2;
-	if (line.draw_start < 0)
-		line.draw_start = 0;
-	line.draw_end = line.line_height / 2 + WINDOW_HEIGHT / 2;
-	if (line.draw_end >= WINDOW_HEIGHT)
-		line.draw_end = WINDOW_HEIGHT - 1;
-	line.step_size = 1.0 * texture->height / line.line_height;
-	line.wall_y = (line.draw_start
-			- WINDOW_HEIGHT / 2 + line.line_height / 2) * line.step_size;
+	setup_line(&line, texture, res);
 	draw_sky_floor(game, res->cast_x, line.draw_start, line.draw_end);
-	texture_pos = (line.draw_start - WINDOW_HEIGHT / 2 + line.line_height / 2) * line.step_size;
+	texture_pos = (line.draw_start - WINDOW_HEIGHT / 2 + line.line_height / 2)
+		* line.step_size;
 	while (line.draw_start < line.draw_end)
 	{
 		tex_y = (int)texture_pos & (texture->height - 1);
 		texture_pos += line.step_size;
-		line.colorb = get_color_texture(texture, (texture->height * tex_y + x_index) * texture->bytes_per_pixel);
+		line.colorb = get_color_texture(texture,
+				(texture->height * tex_y + x_index) * texture->bytes_per_pixel);
 		mlx_put_pixel(game->wall, res->cast_x, line.draw_start, line.colorb);
 		line.draw_start++;
 	}
@@ -103,7 +80,6 @@ static void	draw_texture(t_game *game, t_cast_result *res)
 	if ((res->side >= 2 && res->ray_dir_y < 0)
 		|| (res->side <= 1 && res->ray_dir_x > 0))
 		x_index = texture->width - x_index - 1;
-
 	draw_line(game, res, texture, x_index);
 }
 

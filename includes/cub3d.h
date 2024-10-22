@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:07:19 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/09/24 13:43:00 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:14:31 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_linedraw
 	uint32_t		colorb;
 }			t_linedraw;
 
-typedef struct	s_rgba
+typedef struct s_rgba
 {
 	uint8_t	r;
 	uint8_t	g;
@@ -149,39 +149,42 @@ typedef struct	s_rgba
 }		t_rgba;
 
 // MAP UTILS
-char	at_pos(t_map *map, size_t x, size_t y);
-void	set_pos(t_map *map, size_t x, size_t y, char val);
+char			at_pos(t_map *map, size_t x, size_t y);
+void			set_pos(t_map *map, size_t x, size_t y, char val);
 
 // PARSING
-bool	parse_file(t_game *game, char *filename);
-bool	parse_headers(t_game *instance, int fd);
-bool	parse_map(t_game *game, int fd);
-void	print_map(t_map *map);
+bool			parse_file(t_game *game, char *filename);
+bool			parse_headers(t_game *instance, int fd);
+bool			parse_map(t_game *game, int fd);
+void			print_map(t_map *map);
 
 // RAYCAST
-void	key_hook(mlx_key_data_t keydata, void *param);
-void	raycast(t_game *game, t_cast_result *cast);
+void			key_hook(mlx_key_data_t keydata, void *param);
+void			raycast(t_game *game, t_cast_result *cast);
 
 // MOVEMENT
-void	key_hook(mlx_key_data_t keydata, void *param);
-void	calculate_player_pos_left(t_game *game, keys_t key);
-void	calculate_player_pos(t_game *game, keys_t key);
-void	side_move_two(t_game *game, keys_t key);
-void	side_move(t_game *game, keys_t key);
+void			key_hook(mlx_key_data_t keydata, void *param);
+void			calculate_player_pos_left(t_game *game, keys_t key);
+void			calculate_player_pos(t_game *game, keys_t key);
+void			side_move_two(t_game *game, keys_t key);
+void			side_move(t_game *game, keys_t key);
 
 // RENDERING
-void	update_minimap(t_game *game);
-void	draw_floor_ceiling(t_game *game);
-void	draw_wall(t_game *game);
+void			update_minimap(t_game *game);
+void			draw_floor_ceiling(t_game *game);
+void			draw_wall(t_game *game);
+mlx_texture_t	*get_texture(t_game *game, t_cast_result *res);
+void			setup_line(t_linedraw *line,
+					mlx_texture_t *texture, t_cast_result *res);
 
 // MINIMAP
-bool	initialize_minimap(t_game *game);
+bool			initialize_minimap(t_game *game);
 
 // INIT
-void	init_player(t_player *player, float x, float y, char angle);
+void			init_player(t_player *player, float x, float y, char angle);
 
 // MOVEMENT
-void	handle_movement(t_game *game);
-void	check_states(mlx_key_data_t keydata, t_game *game);
+void			handle_movement(t_game *game);
+void			check_states(mlx_key_data_t keydata, t_game *game);
 
 #endif

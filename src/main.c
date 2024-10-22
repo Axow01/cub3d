@@ -6,30 +6,30 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/10/11 12:02:42 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:15:18 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include <time.h>
 
-void	get_fps(void)
-{
-	static time_t		curr_time;
-	static unsigned int	frames;
+// void	get_fps(void)
+// {
+// 	static time_t		curr_time;
+// 	static unsigned int	frames;
 
-	curr_time = 0;
-	frames = 0;
-	if (!curr_time)
-		curr_time = time(NULL);
-	if (time(NULL) > curr_time)
-	{
-		printf("FRAMES: %u\n", frames);
-		frames = 0;
-		curr_time = time(NULL);
-	}
-	frames++;
-}
+// 	curr_time = 0;
+// 	frames = 0;
+// 	if (!curr_time)
+// 		curr_time = time(NULL);
+// 	if (time(NULL) > curr_time)
+// 	{
+// 		printf("FRAMES: %u\n", frames);
+// 		frames = 0;
+// 		curr_time = time(NULL);
+// 	}
+// 	frames++;
+// }
 
 void	quitting_test(void *param)
 {
@@ -54,7 +54,24 @@ void	loop(void *param)
 	(void)game;
 	draw_wall(game);
 	handle_movement(game);
-	get_fps();
+}
+
+void	init_player_other_angle(t_player *player, char angle)
+{
+	if (angle == 'W')
+	{
+		player->pdx = -1.0;
+		player->pdy = 0.0;
+		player->planex = 0.0;
+		player->planey = -0.66;
+	}
+	else if (angle == 'E')
+	{
+		player->pdx = 1.0;
+		player->pdy = 0.0;
+		player->planex = 0.0;
+		player->planey = 0.66;
+	}
 }
 
 void	init_player(t_player *player, float x, float y, char angle)
@@ -62,7 +79,6 @@ void	init_player(t_player *player, float x, float y, char angle)
 	player->initialized = true;
 	player->px = x + 0.5;
 	player->py = y + 0.5;
-
 	if (angle == 'N')
 	{
 		player->pdx = 0.0;
@@ -77,20 +93,8 @@ void	init_player(t_player *player, float x, float y, char angle)
 		player->planex = -0.66;
 		player->planey = 0.0;
 	}
-	else if (angle == 'W')
-	{
-		player->pdx = -1.0;
-		player->pdy = 0.0;
-		player->planex = 0.0;
-		player->planey = -0.66;
-	}
-	else if (angle == 'E')
-	{
-		player->pdx = 1.0;
-		player->pdy = 0.0;
-		player->planex = 0.0;
-		player->planey = 0.66;
-	}
+	else
+		init_player_other_angle(player, angle);
 }
 
 int	main(int argc, char **argv)
