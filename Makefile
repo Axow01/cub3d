@@ -49,6 +49,14 @@ else
 	PATHGLFW = $(PATHGLFW_42)
 endif
 
+ifeq ($(shell test -d /Users/$(USER)/.brew), 0)
+	BREW = .brew
+else
+	BREW = homebrew
+endif
+
+PATHGLFW = /Users/$(USER)/$(BREW)/opt/glfw/lib/
+
 #---   RULES   ---#
 # Macos compilation settings
 # @$(CC) $(CFLAGS) $(OBJS) $(LIBFTPATH)$(LIBFT) $(LIBMMSPATH)$(LIBMMS) $(MLXPATH)$(MLX) -Iinclude -lglfw -L"$(PATHGLFW)" -framework Cocoa -framework OpenGL -framework IOKit -o $(NAME)
