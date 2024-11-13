@@ -6,7 +6,7 @@
 /*   By: mmarcott <mmarcott@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:17:36 by mmarcott          #+#    #+#             */
-/*   Updated: 2024/10/22 14:15:18 by mmarcott         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:41:30 by mmarcott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,18 @@ int	main(int argc, char **argv)
 	t_game		game;
 
 	if (argc != 2)
-		return (0);
+		return (puts("Error"), EXIT_FAILURE);
 	ft_bzero(&game, sizeof(t_game));
 	mms_set_alloc_fn(ft_calloc);
 	mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3d", false);
 	if (!mlx)
 		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
-	mms_register_callback(quitting_test, &game);
 	game.mlx = mlx;
 	if (!parse_file(&game, argv[1]))
-		return (0);
-	printf("Player x:%f y: %f\n", game.player.px, game.player.py);
+		return (mms_kill("Error\n", true, 1), 1);
+	mms_register_callback(quitting_test, &game);
 	game.wall = mlx_new_image(game.mlx, WINDOW_WIDTH - 1, WINDOW_HEIGHT - 1);
 	draw_floor_ceiling(&game);
-	printf("Ceiling: %x Floor: %x\n", game.ceiling_color, game.floor_color);
 	mlx_image_to_window(game.mlx, game.wall, 0, 0);
 	mlx_key_hook(mlx, key_hook, &game);
 	mlx_loop_hook(mlx, loop, &game);
